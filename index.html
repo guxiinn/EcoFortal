@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eco-Fortal</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #D9D6B6;
+      color: #28675B;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.dark-mode {
+      background-color: #2B4C40;
+      color: #B5CE88;
+    }
+
+    nav {
+      background-color: #618E3C;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      transition: background-color 0.3s, opacity 0.3s;
+    }
+
+    /* Esconde o nav só no mobile */
+    @media (max-width: 768px) {
+      nav {
+        position: fixed;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      nav.ativo {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+
+    nav .menu {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    nav a {
+      color: #E8B08C;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #E8B08C;
+      color: #36454f;
+    }
+
+    body.dark-mode nav {
+      background-color: #36454f;
+    }
+
+    body.dark-mode nav a {
+      color: #B5CE88;
+    }
+
+    body.dark-mode nav a:hover {
+      background-color: #B5CE88;
+      color: #36454f;
+    }
+
+    header {
+      margin-top: 80px;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    header h1, header p, header h3 {
+      color: #28675B;
+    }
+
+    body.dark-mode header h1,
+    body.dark-mode header p,
+    body.dark-mode header h3 {
+      color: #B5CE88;
+    }
+
+    section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 40px;
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    section:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    section .imagem, section .texto {
+      flex: 1 1 45%;
+      min-width: 300px;
+    }
+
+    section img {
+      width: 100%;
+      border-radius: 12px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #28675B;
+    }
+
+    body.dark-mode h2 {
+      color: #B5CE88;
+    }
+
+    p {
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .botao {
+      display: inline-block;
+      padding: 10px 20px;
+      border: 2px solid #636756;
+      color: #636756;
+      background: none;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background-color 0.3s, color 0.3s;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .botao:hover {
+      background-color: #636756;
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #636756;
+      color: white;
+      margin-top: 50px;
+    }
+
+    .toggle-theme {
+      background-color: #36454f;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .toggle-theme:hover {
+      background-color: #636756;
+      transform: rotate(20deg);
+    }
+
+    .texto-extra {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.7s ease, opacity 0.7s ease;
+    }
+
+    .texto-extra.show {
+      max-height: 500px;
+      opacity: 1;
+      margin-top: 15px;
+    }
+
+    /* HAMBURGUER BUTTON */
+    .hamburguer {
+      display: none;
+      font-size: 30px;
+      background: none;
+      border: none;
+      color: #E8B08C;
+      cursor: pointer;
+    }
+
+    /* MOBILE RESPONSIVE */
+    @media (max-width: 768px) {
+      .menu {
+        display: none;
+        flex-direction: column;
+        background-color: #618E3C;
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        padding: 20px 0;
+      }
+
+      .menu.ativo {
+        display: flex;
+        animation: slideDown 0.5s ease;
+      }
+
+      .hamburguer {
+        display: block;
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div><a href="javascript:void(0);" onclick="scrollToTop()">🌱 Eco-Fortal</a></div>
+  <button class="hamburguer" onclick="toggleMenu()">≡</button>
+  <div class="menu" id="menu">
+    <button class="toggle-theme" onclick="document.body.classList.toggle('dark-mode')">🌙</button>
+    <a href="#quem-somos" onclick="toggleMenu()">Quem Somos</a>
+    <a href="#nosso-objetivo" onclick="toggleMenu()">Objetivo</a>
+    <a href="#colabore" onclick="toggleMenu()">Colabore</a>
+    <a href="feedback.html" onclick="toggleMenu()">Feedback</a>
+  </div>
+</nav>
+
+<header>
+  <h1>Bem-vindo à Eco-Fortal</h1>
+  <p><b><h3>“Sinalizamos o descaso, promovemos a mudança”</h3></b></p>
+</header>
+
+<section id="quem-somos">
+  <div class="imagem">
+    <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9" alt="Natureza">
+  </div>
+  <div class="texto">
+    <h2>Quem Somos?</h2>
+    <p>Somos uma organização dedicada à promoção da melhoria contínua e à preservação dos ambientes públicos...</p>
+    <button class="botao" onclick="mostrarTexto('extra-quem-somos', this)">Saiba mais</button>
+    <div id="extra-quem-somos" class="texto-extra">
+      <p>Somos uma organização comprometida com a identificação e a sinalização de áreas que apresentam deficiências na gestão de resíduos sólidos e carências em infraestrutura de saneamento básico. Nosso trabalho é orientado pela promoção da conscientização ambiental, pela disseminação da transparência nas informações e pela colaboração ativa com iniciativas públicas e privadas que visam a melhoria contínua das condições ambientais e de saúde da população.</p>
+    </div>
+  </div>
+</section>
+
+<section id="nosso-objetivo">
+  <div class="texto">
+    <h2>Nosso Objetivo</h2>
+    <p>O objetivo da nossa empresa é atuar de forma estratégica na identificação e sinalização de áreas...</p>
+    <button class="botao" onclick="mostrarTexto('extra-objetivo', this)">Veja como</button>
+    <div id="extra-objetivo" class="texto-extra">
+      <p>O objetivo da nossa empresa é atuar de forma estratégica na identificação e sinalização de áreas que apresentam baixa manutenção de resíduos e deficiências em saneamento básico. Buscamos promover a conscientização da população e fomentar a transparência nas informações relacionadas às condições ambientais, colaborando ativamente com iniciativas públicas e privadas que visem à melhoria da qualidade de vida e da saúde da população.</p>
+    </div>
+  </div>
+  <div class="imagem">
+    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Objetivo Ecológico">
+  </div>
+</section>
+
+<section id="colabore">
+  <div class="imagem">
+    <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6" alt="Colabore">
+  </div>
+  <div class="texto">
+    <h2>Colabore</h2>
+    <p>Ajude-nos a plantar sementes de mudança! Seja um voluntário, faça uma doação ou compartilhe nossas iniciativas.</p>
+    <a href="#top" class="botao">Junte-se a nós</a>
+  </div>
+</section>
+
+<footer>
+  © 2025 Eco-Fortal - Todos os direitos reservados
+</footer>
+
+<script>
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function mostrarTexto(id, botao) {
+  const textoExtra = document.getElementById(id);
+  textoExtra.classList.toggle('show');
+  botao.style.display = 'none'; 
+}
+
+function toggleMenu() {
+  const nav = document.querySelector('nav');
+  const menu = document.getElementById('menu');
+  
+  nav.classList.toggle('ativo');
+  menu.classList.toggle('ativo');
+}
+</script>
+
+</body>
+</html>
